@@ -6,7 +6,7 @@ int main(){
 
 	table l;
 	ifstream fileName;
-	fileName.open("C:\\Users\\Christina\\Documents\\Visual Studio 2013\\Projects\\eecs560Lab2\\Debug\\data.txt");
+	fileName.open("C:\\Users\\christina\\documents\\GitHub\\678EECS\\EECS560Lab3\\EECS560Lab3\\data.txt");
 	//fileName.open("data.txt");
 	l.build(fileName);
 
