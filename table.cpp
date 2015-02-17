@@ -5,7 +5,7 @@
 using namespace std;
 
 
-table::table(){
+table::table(){ //initialize all entries to -1 and false
 	m=0;
 	for (int i = 0; i < MAX_SIZE; i++){
 		a[i].data = -1;
@@ -13,32 +13,29 @@ table::table(){
 	}
 }
 
-/*table::~table(){
-	delete [] a;
-	a = -1;
-}*/
-
+//finds index to place x
 int table::hash(double x){
 	int index = int(x) % m;
 	int index2;
 	int i = 0;
-	if (isfull()){
-		return m;
+	if (isfull()){	//check if full
+		return m;	
 	}
 	else{
-		while (i < (m * 2)){
+		while (i < m ){	//quadratic probing
 			index2 = int(index + pow(i, 2.0)) % m;
-			if (a[index2].data == -1){
+			if (a[index2].data == -1){ //found empty spot
 				return index2;
 			}
 			else{
-				i++;
+				i++; //check new spot
 			}
 		}
 	}
 	return m;
 }
 
+//adds x to table
 void table::insert(double x){
 	int index = hash(x);
 	if (index == m){
@@ -52,9 +49,11 @@ void table::insert(double x){
 	}
 }
 
+//removes x from table
 void table::remove(double x){
-	int index = hash(x);
-	if (contains(x)){
+	int index;
+	if (contains(x)){	//checks if in table
+		index = find(x);	//finds index
 		a[index].data = -1; 
 		a[index].flag = true;
 	}
@@ -63,7 +62,8 @@ void table::remove(double x){
 	}
 }
 
-void table::print(){//almost done need struct stuff
+//print table
+void table::print(){
 	for (int i = 0; i < m; i++){
 		cout << i << ": " << a[i].data << " flag = ";
 		if (a[i].flag){
@@ -76,17 +76,15 @@ void table::print(){//almost done need struct stuff
 	}
 }
 
-
-
-bool table::contains(double x){//done
+//finds index of x
+int table::find(double x){//just like contains except returns the index
 	int index = int(x) % m;
 	int index2;
 	int i = 0;
-	while (i < (m * 2)){/////////////////////////////////m *2 to <= m
+	while (i <= m ){
 		index2 = int(index + pow(i, 2.0)) % m;
 		if ((a[index2].data == -1) && (a[index2].flag == false)){
-			//if (a[index2].data == -1){
-			return false;
+			return m;
 		}
 		else if ((a[index2].data == -1) && (a[index2].flag == true)){
 			i++;
@@ -95,6 +93,30 @@ bool table::contains(double x){//done
 			i++;
 		}
 		else if (a[index2].data == x){
+			return index2;
+		}
+	}
+
+	return false;
+}
+
+//sees if x is in table
+bool table::contains(double x){
+	int index = int(x) % m;
+	int index2;
+	int i = 0;
+	while (i <= m ){
+		index2 = int(index + pow(i, 2.0)) % m;
+		if ((a[index2].data == -1) && (a[index2].flag == false)){	//empty bucket never filled 
+			return false;
+		}
+		else if ((a[index2].data == -1) && (a[index2].flag == true)){	//empty bucket once filled
+			i++;
+		}
+		else if ((a[index2].data != -1) && (a[index2].data != x)){	//filled bucket not x
+			i++;
+		}
+		else if (a[index2].data == x){	//filled bucket x
 			return true;
 		}
 	}
@@ -102,8 +124,8 @@ bool table::contains(double x){//done
 	return false;
 }
 
-
-bool table::isfull(){ //done
+//sees if table is full
+bool table::isfull(){ 
 	for(int i=0; i < m; i++){
 		if (a[i].data == -1){
 			return false;
@@ -112,7 +134,8 @@ bool table::isfull(){ //done
 return true;
 }
 
-void table::build(ifstream& file){ //done
+//builds table
+void table::build(ifstream& file){ 
 	int item;
 	file >> item;
 	m = item;
@@ -121,6 +144,3 @@ void table::build(ifstream& file){ //done
 	}
 }
 
-/*list*& table::getArray(){
-	return a;
-}*/

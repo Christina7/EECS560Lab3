@@ -20,16 +20,14 @@ private:
 
 public:
 	table();
-	//~table();
 	int hash(double x);
 	void insert(double x);
 	void remove(double x);
 	void print();
+	int find(double x);
 	bool contains(double x);
 	bool isfull();
 	void build(ifstream& file);
-	// getArray();
-
 };
 
 
