@@ -1,11 +1,8 @@
-lab2: lab2.o list.o table.o
-	g++ -g -std=c++11 lab2.o list.o table.o -o lab2
+lab3: lab3.o table.o
+	g++ -g -std=c++11 lab3.o table.o -o lab3
 
-lab2.o: lab2.cpp list.o table.o
-	g++ -c -g -std=c++11 lab2.cpp
-
-list.o: list.cpp 
-	g++ -c -g -std=c++11 list.cpp
+lab3.o: lab3.cpp table.o
+	g++ -c -g -std=c++11 lab3.cpp
 
 table.o: table.cpp
 	g++ -c -g -std=c++11 table.cpp
